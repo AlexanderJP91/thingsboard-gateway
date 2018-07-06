@@ -119,15 +119,10 @@ public class MqttMessageSender implements Runnable {
         if (!outgoingQueue.isEmpty()) {
             int pendingCount = 0;
             boolean allFinished = true;
-            int debugCnt = 0;
             for (Future<Void> future : outgoingQueue) {
                 if (!future.isDone()) {
-					log.info("DEBUG ISMB: future number {} is NOT DONE!", debugCnt);
                     pendingCount++;
-                } else {
-					log.info("DEBUG ISMB: future number {} is DONE!", debugCnt);
                 }
-                debugCnt++;
                 allFinished &= future.isDone();
             }
             if (allFinished) {
