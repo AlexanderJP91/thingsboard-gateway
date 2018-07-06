@@ -260,7 +260,8 @@ public class MqttGatewayService implements GatewayService, MqttHandler, MqttClie
 		log.info(deviceName);
 		log.info("The telemetry is:");
 		for (TsKvEntry tmp in telemetry) {
-			
+			//need to continue here!!!
+			xxx
 		}
 		
 		
