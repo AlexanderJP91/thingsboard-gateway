@@ -144,30 +144,10 @@ public class PersistentFileServiceImpl implements PersistentFileService {
         if (files.isEmpty()) {
             messages = new ArrayList<>(buffer);
             buffer.clear();
-            log.info("ISMB DEBUG -> the file is empty!");
             return messages;
         }
-        
-        Iterator<File> iter = files.iterator();
-        while (iter.hasNext()) {
-			File debugFile = iter.next();
-			log.info("ISMB DEBUG fileService: debugFile.getAbsoluteFile() = {}", debugFile.getAbsoluteFile());
-        }
-        
         File oldestFile = files.remove(0);
         messages = readFromFile(oldestFile);
-        
-        Iterator<MqttPersistentMessage> iter2 = messages.iterator();
-        while (iter2.hasNext()) {
-			MqttPersistentMessage debugMsg = iter2.next();
-			log.info("ISMB DEBUG fileService: debugMsg.id = {}", debugMsg.id);
-			log.info("ISMB DEBUG fileService: debugMsg.timestamp = {}", debugMsg.timestamp);
-			log.info("ISMB DEBUG fileService: debugMsg.deviceId = {}", debugMsg.deviceId);
-			log.info("ISMB DEBUG fileService: debugMsg.messageId = {}", debugMsg.messageId);
-			log.info("ISMB DEBUG fileService: debugMsg.topic = {}", debugMsg.topic);
-			log.info("ISMB DEBUG fileService: debugMsg.payload = {}", debugMsg.payload);
-        }
-        
         oldestFile.delete();
         return messages;
     }

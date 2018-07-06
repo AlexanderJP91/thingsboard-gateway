@@ -80,23 +80,19 @@ public class MqttMessageSender implements Runnable {
                 List<MqttPersistentMessage> storedMessages = getMessages();
                 if (!storedMessages.isEmpty()) {
                     Iterator<MqttPersistentMessage> iter = storedMessages.iterator();
+                    int cnt = 0;
                     while (iter.hasNext()) {
                         if (!checkClientConnected()) {
                             persistentFileService.saveForResend(Lists.newArrayList(iter));
                             break;
                         }
                         MqttPersistentMessage message = iter.next();
-                        
-						log.info("ISMB DEBUG stored: message.id = {}", message.id);
-						log.info("ISMB DEBUG stored: message.timestamp = {}", message.timestamp);
-						log.info("ISMB DEBUG stored: message.deviceId = {}", message.deviceId);
-						log.info("ISMB DEBUG stored: message.messageId = {}", message.messageId);
-						log.info("ISMB DEBUG stored: message.topic = {}", message.topic);
-						log.info("ISMB DEBUG stored: message.payload = {}", message.payload);
-                        
                         log.debug("Sending message [{}][{}]", message, new String(message.getPayload()));
                         Future<Void> publishFuture = publishMqttMessage(message);
-                        outgoingQueue.add(publishFuture);
+                        if (cnt != 0) {
+							outgoingQueue.add(publishFuture);
+                        }
+                        cnt++;
                     }
                 } else {
                     try {
