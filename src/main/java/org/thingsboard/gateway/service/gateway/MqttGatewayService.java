@@ -253,6 +253,18 @@ public class MqttGatewayService implements GatewayService, MqttHandler, MqttClie
 
     @Override
     public MqttDeliveryFuture onDeviceTelemetry(String deviceName, List<TsKvEntry> telemetry) {
+
+    
+		log.info("Debug ISMB2");
+		log.info("Device name:");
+		log.info(deviceName);
+		log.info("The telemetry is:");
+		for (TsKvEntry tmp in telemetry) {
+			
+		}
+		
+		
+		
         final int msgId = msgIdSeq.incrementAndGet();
         log.trace("[{}][{}] Updating device telemetry: {}", deviceName, msgId, telemetry);
         checkDeviceConnected(deviceName);

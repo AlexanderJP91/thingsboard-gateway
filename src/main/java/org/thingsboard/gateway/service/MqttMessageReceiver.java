@@ -54,6 +54,12 @@ public class MqttMessageReceiver implements Runnable {
                 MessageFuturePair messageFuturePair = incomingQueue.take();
                 Future<?> future = messageFuturePair.getFuture();
                 MqttPersistentMessage message = messageFuturePair.getMessage();
+                log.info("ISMB DEBUG receive: message.id = {}", message.id);
+                log.info("ISMB DEBUG receive: message.timestamp = {}", message.timestamp);
+                log.info("ISMB DEBUG receive: message.deviceId = {}", message.deviceId);
+                log.info("ISMB DEBUG receive: message.messageId = {}", message.messageId);
+                log.info("ISMB DEBUG receive: message.topic = {}", message.topic);
+                log.info("ISMB DEBUG receive: message.payload = {}", message.payload);
                 if (future.isSuccess()) {
                     Consumer<Void> successCallback = persistentFileService.getSuccessCallback(message.getId()).orElse(defaultSuccessCallback);
                     successCallback.accept(null);

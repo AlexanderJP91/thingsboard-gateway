@@ -86,6 +86,14 @@ public class MqttMessageSender implements Runnable {
                             break;
                         }
                         MqttPersistentMessage message = iter.next();
+                        
+						log.info("ISMB DEBUG stored: message.id = {}", message.id);
+						log.info("ISMB DEBUG stored: message.timestamp = {}", message.timestamp);
+						log.info("ISMB DEBUG stored: message.deviceId = {}", message.deviceId);
+						log.info("ISMB DEBUG stored: message.messageId = {}", message.messageId);
+						log.info("ISMB DEBUG stored: message.topic = {}", message.topic);
+						log.info("ISMB DEBUG stored: message.payload = {}", message.payload);
+                        
                         log.debug("Sending message [{}][{}]", message, new String(message.getPayload()));
                         Future<Void> publishFuture = publishMqttMessage(message);
                         outgoingQueue.add(publishFuture);
@@ -115,10 +123,15 @@ public class MqttMessageSender implements Runnable {
         if (!outgoingQueue.isEmpty()) {
             int pendingCount = 0;
             boolean allFinished = true;
+            int debugCnt = 0;
             for (Future<Void> future : outgoingQueue) {
                 if (!future.isDone()) {
+					log.info("DEBUG ISMB: future number {} is NOT DONE!", debugCnt);
                     pendingCount++;
+                } else {
+					log.info("DEBUG ISMB: future number {} is DONE!", debugCnt);
                 }
+                debugCnt++;
                 allFinished &= future.isDone();
             }
             if (allFinished) {

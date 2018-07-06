@@ -33,11 +33,11 @@ public class MqttPersistentMessage implements Serializable {
 
     private static final long serialVersionUID = -3133461476074777891L;
 
-    private UUID id;
-    private long timestamp;
-    private String deviceId;
-    private int messageId;
-    private String topic;
-    private byte[] payload;
+    public UUID id;
+    public long timestamp;
+    public String deviceId;
+    public int messageId;
+    public String topic;
+    public byte[] payload;
 
 }
